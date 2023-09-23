@@ -17,5 +17,5 @@ English:   This program offers a set of
             s —————————————— 关机
             q —————————————— 退出
               你可以使用命令行操作，例如：
-          "QuickShutdown -s" 来关闭系统，或
+          "QuickShutdown -r" 来重启系统，或
           者直接按下相应的键即可执行指定功能。
