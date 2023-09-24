@@ -1,21 +1,18 @@
-Quick Shutdown 1.0 by HardsoftCyril
+Quick Shutdown 1.1 by HardsoftCyril
 Follow me on github @Cyril-44
-English:   This program offers a set of 
-         functions that can change your 
+Fixes: 1. Updated README file.
+       2. Added 15s security timeout.
+English:   This program offers a set of functions that can change your 
          power state quickly.
             r .............. Reboot
             s .............. Shutdown
             q .............. Quit
-           You can use command line such 
-         as "QuickShutdown -s" to shutdown 
-         your system, or simply press the 
-         specific key to apply the action.
-简体中文：    本程序提供了一些关于电源操作的功能，
-          旨在让您的关机重启更加快速。本程序基本
-          可以在 1s 内关闭/重启你的电脑。
+           You can use command line such as "QuickShutdown -s" to shutdown 
+         your system, or simply press the specific key to apply the action.
+简体中文：    本程序提供了一些关于电源操作的功能，旨在让您的关机重启更加快速。
+          本程序基本可以在 1s 内关闭/重启你的电脑。
             r —————————————— 重启
             s —————————————— 关机
             q —————————————— 退出
-              你可以使用命令行操作，例如：
-          "QuickShutdown -r" 来重启系统，或
-          者直接按下相应的键即可执行指定功能。
+              你可以使用命令行操作，例如："QuickShutdown -r" 
+          来重启系统，或者直接按下相应的键即可执行指定功能。

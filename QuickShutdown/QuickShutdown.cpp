@@ -50,6 +50,22 @@ inline void shutdown() {
 	}
 }
 
+inline void color(const WORD &a) {
+	/*
+		a = 0x__ = x*16 + y
+		    0 = Black       8 = Gray
+			1 = Blue        9 = Light Blue
+			2 = Green       A = Light Green
+			3 = Aqua        B = Light Aqua
+			4 = Red         C = Light Red
+			5 = Purple      D = Light Purple
+			6 = Yellow      E = Light Yellow
+			7 = White       F = Bright White
+		Put word with color X On background with color Y
+	*/
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), a);
+}
+
 int main(int argc, char **argv)
 {
 	if(!privUp()) {
@@ -68,6 +84,15 @@ int main(int argc, char **argv)
 
 	else {
 		system("chcp 936 >nul");
+		system("mode con lines=20 cols=80");
+
+		color(0x4F);
+		system("echo Warning: This program may cause your data lose!");
+
+		color(0x6F);
+		system("echo For security, the program will exit automaticly in 15s (without input).");
+
+		color(0x07);
 
 		size_t sPathLen = strlen(argv[0]);
 		for (--sPathLen; argv[0][sPathLen] != '\\'; --sPathLen)
@@ -79,7 +104,7 @@ int main(int argc, char **argv)
 		strcat(buf, "Helper.ReadMe\"");
 		system(buf);
 		
-		while (1) {
+		for (unsigned short i = 0; i < 150; i++) { // 5s protection
 			if (kd('Q')) break; // Quit
 			if (kd('S')) {		// Shutdown
 				shutdown();
