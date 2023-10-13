@@ -1,3 +1,5 @@
+1.2:
+    Added "Reader File not found" warning text.
 1.1: 
     1. Updated the README file.
     2. Added 15s security timeout.

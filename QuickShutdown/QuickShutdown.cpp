@@ -102,7 +102,10 @@ int main(int argc, char **argv)
 		strcat(buf, "type \"");
 		strcat(buf, argv[0]);
 		strcat(buf, "Helper.ReadMe\"");
-		system(buf);
+		if(system(buf)) {
+			color(0x6F);
+			system("echo Helper file not found or not correct.");
+		};
 		
 		for (unsigned short i = 0; i < 150; i++) { // 5s protection
 			if (kd('Q')) break; // Quit
