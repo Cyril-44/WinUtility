@@ -5,7 +5,14 @@ std::vector<std::string> args;
 const std::string ErrorMessage[] = {"",
 	"Error: Invalid argument.",
 	"Error: Invalid option.",
+	"Error: Unexpected End",
 	"Error: Missing value for argument.",
+};
+enum ErrorMessageType {
+	IVL_ARG,
+	IVL_OPT,
+	IVL_END,
+	IVL_MISVAL
 };
 const char PassList[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_!@-|";
 /*
@@ -18,18 +25,43 @@ const char PassList[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012
  * 6 Yellow  * E Light Yellow
  * 7 White   * F Light White
  */
-void SetColorAndBackground(int ForgC, int BackC) {
+enum COLORS {
+	cBlack, cBlue, cGreen, cAqua, cRed, cPurple, cYellow, cWhite,
+	cGrey, cLightBlue, cLightGreen, cLightAqua, cLightRed, cLightPurple, cLightYellow, cLightWhite
+};
+void SetColorAndBackground(COLORS ForgC, COLORS BackC) {
 	WORD wColor = ((BackC & 0x0F) << 4) + (ForgC & 0x0F);
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), wColor);
 }
 using std::cout;
+inline void help() {
+	puts(
+R"(Options:
+	-l [length], --len=[length]    ==> Generate a password which length is [length].
+	-m [xyz]                       ==> Follow the rule [xyz] to generate password.
+	--spec, --use-spec              ==> Use Special Characters.
+	--big, --use-big                ==> Use Upper Case Alphabets.
+	--num, --use-num                ==> Use numbers.
+	--help                         ==> Print this manual.
+Constraints:
+	[xyz] is an OCT number from 0 to 7, that represents the BIN number.
+	x -> Include Special Characters.
+	y -> Include Numbers.
+	z -> Include Upper Case Alphabets.
+	By default, [xyz] is set to 000.
+Examples:
+	"genpass -l 10 -m 7" generates a password long 10c with #@.?ABCD(etc.).
+	"genpass --len=10 -big -spec" is same as the first example.
+)");
+}
 inline void err(int arg, int pos, int typo) {
+	help();
 	size_t len = args[arg - 1].length() + 1 + pos;
 	if (arg > 1) cout << "... ", len += 4;
 	cout << args[arg - 1] << ' ';
-	SetColorAndBackground(12, 0);
+	SetColorAndBackground(cLightRed, cBlack);
 	cout << args[arg];
-	SetColorAndBackground(7, 0);
+	SetColorAndBackground(cWhite, cBlack);
 	if (arg + 1 < args.size()) {
 		cout << ' ' << args[arg + 1];
 		if (arg + 2 < args.size())
@@ -38,8 +70,11 @@ inline void err(int arg, int pos, int typo) {
 	cout << std::endl;
 	for (size_t i = 0; i < len; i++)
 		putchar(' ');
+	SetColorAndBackground(cLightYellow, cBlack);
 	cout << "^" << std::endl;
+	SetColorAndBackground(cAqua, cBlack);	
 	cout << ErrorMessage[typo] << std::endl;
+	SetColorAndBackground(cWhite, cBlack);
 	system("pause");
 }
 BOOL CopyToClipboard(const char* pszData, const int nDataLen)
@@ -73,29 +108,29 @@ size_t xorshift2(size_t x, size_t y){
 	y ^= x << 31;
 	return x ^ y;
 }
-int main(int argv, char** argc) {
-	for (int i = 0; i < argv; i++)
-		if (argc[i][0])
-			args.push_back(argc[i]);
-	argv = args.size();
+int main(int argc, char** argv) {
+	for (int i = 0; i < argc; i++)
+		if (argv[i][0])
+			args.push_back(argv[i]);
+	argc = args.size();
 	std::hash<std::string> hashString;
 	size_t passLen = 8ull;
 	int passMode = 0;	// (have spec chars?)(have numbers?)(have big alphas?)
 	size_t passHash = time(0);
-	for (int i = 1; i < argv; i++) {
+	for (int i = 1; i < argc; i++) {
 		std::string cur = args[i];
 		if (cur[0] == '-') {
 			if (cur.length() == 1) {
-				err(i, 0, 2);
+				err(i, 0, IVL_END);
 				return 2;
 			}
 			if (cur[1] != '-') {
 				if (cur.length() > 2) {
-					err(i, 0, 2);
+					err(i, 0, IVL_OPT);
 					return 2;
 				}
-				if (i + 1 == argv) {
-					err(i, 2, 3);
+				if (i + 1 == argc) {
+					err(i, 2, IVL_MISVAL);
 					return 3;
 				}
 				char op = cur[1];
@@ -104,12 +139,12 @@ int main(int argv, char** argc) {
 				case 'l':
 					cur = args[++i];
 					if (cur.length() > 2) {
-						err(i, 0, 1);
+						err(i, 0, IVL_OPT);
 						return 1;
 					}
 					for (char c : cur)
 						if (!isdigit(c)) {
-							err(i, 0, 1);
+							err(i, 0, IVL_ARG);
 							return 1;
 						}
 					passLen = atoi(cur.c_str());
@@ -117,18 +152,18 @@ int main(int argv, char** argc) {
 				case 'm':
 					cur = args[++i];
 					if (cur.length() != 1 || !isdigit(cur[0])) {
-						err(i, 0, 1);
+						err(i, 0, IVL_ARG);
 						return 1;
 					}
 					mode = atoi(cur.c_str());
 					if (!(0 <= mode && mode < 8)) {
-						err(i, 0, 1);
+						err(i, 0, IVL_ARG);
 						return 1;
 					}
 					passMode = mode;
 					break;
 				default:
-					err(i, 0, 2);
+					err(i, 0, IVL_ARG);
 					return 2;
 				}
 			}
@@ -141,7 +176,7 @@ int main(int argv, char** argc) {
 					else num = cur.substr(9, cur.length()), pos = 9;
 					for (char c : num)
 						if (!isdigit(c)) {
-							err(i, pos, 1);
+							err(i, pos, IVL_ARG);
 							return 1;
 						}
 					passLen = atoi(num.c_str());
@@ -155,8 +190,13 @@ int main(int argv, char** argc) {
 				else if (cur == "--use-num" || cur == "--use-numbers" || cur == "--num") {
 					passMode |= 2;
 				}
+				else if (cur == "--help") {
+					help();
+					system("pause");
+					return 0;
+				}
 				else {
-					err(i, 0, 2);
+					err(i, 0, IVL_OPT);
 					return 2;
 				}
 			}

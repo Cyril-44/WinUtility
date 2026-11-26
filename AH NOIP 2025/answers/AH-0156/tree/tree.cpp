@@ -1,0 +1,85 @@
+#include<bits/stdc++.h>
+using namespace std;
+const int mod=998244353;
+inline int read()
+{
+	int x=0,f=1;
+	char ch;
+	ch=getchar();
+	while(ch<'0'||ch>'9')
+	{
+		if(ch=='-') f=-1;
+		ch=getchar();
+	}
+	while(ch>='0'&&ch<='9')
+	{
+		x=x*10+ch-'0';
+		ch=getchar();
+	}
+	return x*f;
+	
+}
+int fa[8010],d[8010];
+int ans=0;
+vector<int> to[8010];
+bool vis2[8010],vis[8010];
+void dfs(int u)
+{
+	d[u]=1;
+	vis2[u]=1;
+	int x=0;bool flag=0;
+	//cout<<to[u].size();
+	for(int i=0;i<to[u].size();i++)
+	{
+		if(vis[to[u][i]]) continue;
+		dfs(to[u][i]);
+		//cout<<u<<" "<<to[u][i]<<endl;
+		if(d[to[u][i]]!=1) flag=1;
+		x=max(x,d[to[u][i]]);
+	}
+//	cout<<111111<<" "<<to[2].size()<<" 11111";
+	if(!flag&&to[u].size()!=0) d[u]=to[u].size()+1;
+	else d[u]=x+1;
+	if(d[u]!=1) ans=ans+d[u];
+	//cout<<x<<" "<<u<<" "<<d[u]<<endl;
+	return ;
+}
+
+int main()
+{
+	freopen("tree.in","r",stdin);
+	freopen("tree.out","w",stdout);
+	int t;
+	t=read();
+	while(t--)
+	{
+		int n,m;
+		ans=0;
+		n=read(),m=read();
+		for(int i=1;i<=n;i++) fa[i]=0,to[i].clear();
+		for(int i=1;i<=n-1;i++)
+		{
+			vis[i]=vis2[i]=0;
+			int x=read();
+			fa[i+1]=x;
+			to[x].push_back(i+1);
+		}
+		vis[n]=vis2[n]=0;
+		dfs(1);
+	//	cout<<ans<<endl;
+		for(int i=1;i<=n;i++)
+		{
+			//cout<<i<<" "<<d[i]<<endl;
+			if(d[i]==1)
+			{
+				if(vis[fa[i]]==0)
+				{
+					ans++;
+					vis[fa[i]]=1;
+				}
+			}
+		}
+		printf("%d\n",ans);
+	}
+	return 0;
+}

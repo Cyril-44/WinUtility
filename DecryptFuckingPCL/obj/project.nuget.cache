@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "C1EnTfJcR7M=",
+  "success": true,
+  "projectFilePath": "D:\\Hardsoft\\Code\\DecryptFuckingPCL\\DecryptFuckingPCL.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\zsy16\\.nuget\\packages\\system.security.cryptography.protecteddata\\10.0.2\\system.security.cryptography.protecteddata.10.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}

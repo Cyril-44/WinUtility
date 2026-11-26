@@ -7,7 +7,7 @@
 			"command": "D:\\Apps\\TDM-GCC-32_9.2.0\\bin\\g++.exe",
 			"args": [
 				"-fdiagnostics-color=always",
-				"-std=c++2a",
+				"-std=c++14",
 				"-g",
 				"${file}",
 				"-o",
@@ -21,6 +21,29 @@
 			],
 			"group": "build",
 			"detail": "compiler: D:\\Apps\\TDM-GCC-32_9.2.0\\bin\\g++.exe"
+		},
+		{
+			"type": "cppbuild",
+			"label": "C/C++: g++.exe build active file",
+			"command": "D:\\Hardsoft\\MinGW64\\bin\\g++.exe",
+			"args": [
+				"-fdiagnostics-color=always",
+				"-O2",
+				"-std=c++23",
+				"-static",
+				"-g",
+				"${file}",
+				"-o",
+				"${fileDirname}\\${fileBasenameNoExtension}.exe"
+			],
+			"options": {
+				"cwd": "D:\\Hardsoft\\MinGW64\\bin"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build",
+			"detail": "compiler: D:\\Hardsoft\\MinGW64\\bin\\g++.exe"
 		}
 	]
 }

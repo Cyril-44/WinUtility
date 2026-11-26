@@ -1,0 +1,38 @@
+﻿cl : command line  warning D9025: overriding '/DUNICODE' with '/UUNICODE'
+cl : command line  warning D9025: overriding '/D_UNICODE' with '/U_UNICODE'
+cl : command line  warning D9035: option 'Zc:forScope-' has been deprecated and will be removed in a future release
+  KeyLogger.cpp
+D:\Hardsoft\Code\Functions\KeyLogger.cpp(1,1): warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
+D:\Hardsoft\Code\Functions\KeyLogger.cpp(18,5): error C2660: 'localtime': function does not take 2 arguments
+      C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\ucrt\time.h(525,46):
+      see declaration of 'localtime'
+      D:\Hardsoft\Code\Functions\KeyLogger.cpp(18,5):
+      while trying to match the argument list '(tm *, time_t *)'
+  
+  main.cpp
+D:\Hardsoft\Code\KeyLogger\src\keyLog.h(366,6): error C2665: 'ATL::CStringT<char,ATL::StrTraitATL<char,ATL::ChTraitsCRT<char>>>::Format': no overloaded function could convert all the argument types
+  (compiling source file 'src/main.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\atlmfc\include\cstringt.h(2193,15):
+      could be 'void ATL::CStringT<char,ATL::StrTraitATL<char,ATL::ChTraitsCRT<char>>>::Format(UINT,...)'
+          D:\Hardsoft\Code\KeyLogger\src\keyLog.h(366,6):
+          'void ATL::CStringT<char,ATL::StrTraitATL<char,ATL::ChTraitsCRT<char>>>::Format(UINT,...)': cannot convert argument 1 from 'const unsigned short [30]' to 'UINT'
+              D:\Hardsoft\Code\KeyLogger\src\keyLog.h(366,13):
+              There is no context in which this conversion is possible
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\atlmfc\include\cstringt.h(2190,15):
+      or       'void ATL::CStringT<char,ATL::StrTraitATL<char,ATL::ChTraitsCRT<char>>>::Format(const char *,...)'
+          D:\Hardsoft\Code\KeyLogger\src\keyLog.h(366,6):
+          'void ATL::CStringT<char,ATL::StrTraitATL<char,ATL::ChTraitsCRT<char>>>::Format(const char *,...)': cannot convert argument 1 from 'const unsigned short [30]' to 'const char *'
+              D:\Hardsoft\Code\KeyLogger\src\keyLog.h(366,13):
+              Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or parenthesized function-style cast
+      D:\Hardsoft\Code\KeyLogger\src\keyLog.h(366,6):
+      while trying to match the argument list '(const unsigned short [30], int, int, int, int, int, int)'
+  
+D:\Hardsoft\Code\KeyLogger\src\keyLog.h(605,28): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
+  (compiling source file 'src/main.cpp')
+  
+D:\Hardsoft\Code\KeyLogger\src\keyLog.h(629,68): error C3861: 'getfilename': identifier not found
+  (compiling source file 'src/main.cpp')
+  
+D:\Hardsoft\Code\KeyLogger\src\keyLog.h(577,4): error C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  (compiling source file 'src/main.cpp')
+  

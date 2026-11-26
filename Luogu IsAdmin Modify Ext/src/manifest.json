@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+  "name": "Luogu Admin Status Modifier",
+  "version": "1.2", // 更新版本号
+  "description": "Modifies Luogu user profile JSON to set isAdmin to true.",
+  "permissions": [
+    "webRequest", // 允许使用 webRequest API
+    "webRequestBlocking", // 允许阻断式 webRequest 操作
+    "https://www.luogu.com.cn/*", // 指定需要访问的主机
+    "https://luogu.com.cn/*"      // 指定需要访问的主机
+  ],
+  "background": {
+    "scripts": ["background.js"] // Manifest V2 使用 scripts 数组
+  }
+}
